@@ -3,29 +3,26 @@
 }
 
 <div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+    <h1>Alexander Art Wiki</h1>
+    <p class="lead">Ken Alexander's submission for COMP2084 Assignment 1</p>
 </div>
 
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
+        <h2>Introduction</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            For this assignment, I chose to begin the construction of a site that acts as a wiki for art enthusiasts. I seperated the data into two tables, the first being Museums and the second
+            being Art. They are both categorized with a unique primary key, and have a one-to-many relationship. A museum may have many different works of art, while a work of art may only hang in
+            one museum. The foreign key originates in the Art table and connects to the primary key of Museums. I hope this helps navigate through the front and back end of this application.
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
     <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+        <h2>Museums</h2>
+        <p>For the Museum table, I created five seperate columns. The first being MuseumID (primary key), the next being Name, Location, Contact, and Art.</p>
+
     </div>
     <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+        <h2>Artwork</h2>
+        <p>For the Art table, I created five seperate columns. The first being TitleID (primary key), the next being Title, Artist, Year, and MuseumID (foreign key).</p>
     </div>
 </div>
