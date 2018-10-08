@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="a1dbModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="artTable">
+          <Key>
+            <PropertyRef Name="TitleID" />
+          </Key>
+          <Property Name="TitleID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="Artist" Type="varchar" MaxLength="50" />
+          <Property Name="Year" Type="varchar" MaxLength="50" />
+          <Property Name="MuseumID" Type="int" />
+        </EntityType>
+        <EntityType Name="museumTable">
+          <Key>
+            <PropertyRef Name="MuseumID" />
+          </Key>
+          <Property Name="MuseumID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="50" />
+          <Property Name="Location" Type="varchar" MaxLength="50" />
+          <Property Name="Contact" Type="varchar" MaxLength="50" />
+          <Property Name="Art" Type="varchar" MaxLength="50" />
+        </EntityType>
+        <Association Name="FK_artTable_museumTable">
+          <End Role="museumTable" Type="Self.museumTable" Multiplicity="0..1" />
+          <End Role="artTable" Type="Self.artTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="museumTable">
+              <PropertyRef Name="MuseumID" />
+            </Principal>
+            <Dependent Role="artTable">
+              <PropertyRef Name="MuseumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="a1dbModelStoreContainer">
+          <EntitySet Name="artTable" EntityType="Self.artTable" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="museumTable" EntityType="Self.museumTable" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_artTable_museumTable" Association="Self.FK_artTable_museumTable">
+            <End Role="museumTable" EntitySet="museumTable" />
+            <End Role="artTable" EntitySet="artTable" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="a1dbModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="artTable">
+          <Key>
+            <PropertyRef Name="TitleID" />
+          </Key>
+          <Property Name="TitleID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Artist" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Year" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MuseumID" Type="Int32" />
+          <NavigationProperty Name="museumTable" Relationship="Self.FK_artTable_museumTable" FromRole="artTable" ToRole="museumTable" />
+        </EntityType>
+        <EntityType Name="museumTable">
+          <Key>
+            <PropertyRef Name="MuseumID" />
+          </Key>
+          <Property Name="MuseumID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Location" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Contact" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Art" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="artTables" Relationship="Self.FK_artTable_museumTable" FromRole="museumTable" ToRole="artTable" />
+        </EntityType>
+        <Association Name="FK_artTable_museumTable">
+          <End Role="museumTable" Type="Self.museumTable" Multiplicity="0..1" />
+          <End Role="artTable" Type="Self.artTable" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="museumTable">
+              <PropertyRef Name="MuseumID" />
+            </Principal>
+            <Dependent Role="artTable">
+              <PropertyRef Name="MuseumID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="a1dbEntities4" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="artTables" EntityType="Self.artTable" />
+          <EntitySet Name="museumTables" EntityType="Self.museumTable" />
+          <AssociationSet Name="FK_artTable_museumTable" Association="Self.FK_artTable_museumTable">
+            <End Role="museumTable" EntitySet="museumTables" />
+            <End Role="artTable" EntitySet="artTables" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="a1dbModelStoreContainer" CdmEntityContainer="a1dbEntities4">
+          <EntitySetMapping Name="artTables">
+            <EntityTypeMapping TypeName="a1dbModel.artTable">
+              <MappingFragment StoreEntitySet="artTable">
+                <ScalarProperty Name="TitleID" ColumnName="TitleID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="Artist" ColumnName="Artist" />
+                <ScalarProperty Name="Year" ColumnName="Year" />
+                <ScalarProperty Name="MuseumID" ColumnName="MuseumID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="museumTables">
+            <EntityTypeMapping TypeName="a1dbModel.museumTable">
+              <MappingFragment StoreEntitySet="museumTable">
+                <ScalarProperty Name="MuseumID" ColumnName="MuseumID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Location" ColumnName="Location" />
+                <ScalarProperty Name="Contact" ColumnName="Contact" />
+                <ScalarProperty Name="Art" ColumnName="Art" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
