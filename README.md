@@ -5,4 +5,4 @@ ASP.NET Project w/ Entity Framework &amp; SQL Server
 Ken Alexander 200197039
 
 ## Live Links
-https://200197039a1.azurewebsites.net/
+https://200197039a1.azurewebsites.net
