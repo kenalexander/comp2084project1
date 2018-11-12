@@ -5,6 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
+using System.Configuration;
 using COMP2084Project1.Models;
 
 namespace COMP2084Project1
@@ -60,8 +61,8 @@ namespace COMP2084Project1
 
             app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
             {
-                ClientId = "364365366506-l18oi8vvoev1e7j1t7o1om5vrtl888sk.apps.googleusercontent.com",
-                ClientSecret = "dZrUdI0mijmAktqJ7pi1WMQf"
+                ClientId = ConfigurationManager.AppSettings["GoogleClientId"],
+                ClientSecret = ConfigurationManager.AppSettings["GoogleClientSecret"]
             });
         }
     }
