@@ -10,17 +10,20 @@ using COMP2084Project1.Models;
 
 namespace COMP2084Project1.Controllers
 {
+    [Authorize]
     public class museumTablesController : Controller
     {
         private a1dbEntities4 db = new a1dbEntities4();
 
         // GET: museumTables
+        [AllowAnonymous]
         public ActionResult Index()
         {
             return View(db.museumTables.ToList());
         }
 
         // GET: museumTables/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

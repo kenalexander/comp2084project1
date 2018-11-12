@@ -10,11 +10,13 @@ using COMP2084Project1.Models;
 
 namespace COMP2084Project1.Controllers
 {
+    [Authorize]
     public class artTablesController : Controller
     {
         private a1dbEntities4 db = new a1dbEntities4();
 
         // GET: artTables
+        [AllowAnonymous]
         public ActionResult Index()
         {
             var artTables = db.artTables.Include(a => a.museumTable);
@@ -22,6 +24,7 @@ namespace COMP2084Project1.Controllers
         }
 
         // GET: artTables/Details/5
+        [AllowAnonymous]
         public ActionResult Details(int? id)
         {
             if (id == null)

@@ -8,7 +8,10 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @if (User.Identity.IsAuthenticated)
+    {
+        @Html.ActionLink("Create New", "Create")
+    }
 </p>
 <table class="table">
     <tr>
@@ -42,9 +45,11 @@
             @Html.DisplayFor(modelItem => item.Art)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.MuseumID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.MuseumID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.MuseumID })
+            @Html.ActionLink("Details", "Details", new { id = item.MuseumID })
+            @if (User.Identity.IsAuthenticated)
+            {@Html.ActionLink("Edit", "Edit", new { id = item.MuseumID })}
+            @if (User.Identity.IsAuthenticated)
+            {@Html.ActionLink("Delete", "Delete", new { id = item.MuseumID })}
         </td>
     </tr>
 }
