@@ -58,11 +58,11 @@ namespace COMP2084Project1
             //   appId: "",
             //   appSecret: "");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "364365366506-l18oi8vvoev1e7j1t7o1om5vrtl888sk.apps.googleusercontent.com",
+                ClientSecret = "dZrUdI0mijmAktqJ7pi1WMQf"
+            });
         }
     }
 }
