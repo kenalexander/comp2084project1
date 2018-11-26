@@ -13,14 +13,27 @@ namespace COMP2084Project1.Controllers
     [Authorize]
     public class artTablesController : Controller
     {
-        private a1dbEntities4 db = new a1dbEntities4();
+        //private a1dbEntities4 db = new a1dbEntities4();
+
+        private IArtMock db;
+
+        public artTablesController()
+        {
+            this.db = new EFartTable();
+        }
+
+        public artTablesController(IArtMock artMock)
+        {
+            this.db = artMock;
+        }
 
         // GET: artTables
         [AllowAnonymous]
         public ActionResult Index()
         {
-            var artTables = db.artTables.Include(a => a.museumTable);
-            return View(artTables.ToList());
+            //var artTables = db.artTables.Include(a => a.museumTable);
+            var artTables = db.artTables.OrderBy(a => a.Title).ThenBy(a => a.Artist).ToList();
+            return View("Index", artTables);
         }
 
         // GET: artTables/Details/5
@@ -29,21 +42,26 @@ namespace COMP2084Project1.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
-            artTable artTable = db.artTables.Find(id);
+            //artTable artTable = db.artTables.Find(id);
+
+            artTable artTable = db.artTables.SingleOrDefault(a => a.TitleID == id);
             if (artTable == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                return View("Error");
             }
-            return View(artTable);
+            return View("Details", artTable);
         }
 
         // GET: artTables/Create
         public ActionResult Create()
         {
             ViewBag.MuseumID = new SelectList(db.museumTables, "MuseumID", "Name");
-            return View();
+            return View("Create");
+
         }
 
         // POST: artTables/Create
@@ -55,13 +73,14 @@ namespace COMP2084Project1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.artTables.Add(artTable);
-                db.SaveChanges();
+                //db.artTables.Add(artTable);
+                //db.SaveChanges();
+                db.Save(artTable);
                 return RedirectToAction("Index");
             }
 
             ViewBag.MuseumID = new SelectList(db.museumTables, "MuseumID", "Name", artTable.MuseumID);
-            return View(artTable);
+            return View("Create", artTable);
         }
 
         // GET: artTables/Edit/5
@@ -69,15 +88,18 @@ namespace COMP2084Project1.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
-            artTable artTable = db.artTables.Find(id);
+            //artTable artTable = db.artTables.Find(id);
+            artTable artTable = db.artTables.SingleOrDefault(a => a.TitleID == id);
             if (artTable == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                return View("Error");
             }
             ViewBag.MuseumID = new SelectList(db.museumTables, "MuseumID", "Name", artTable.MuseumID);
-            return View(artTable);
+            return View("Edit", artTable);
         }
 
         // POST: artTables/Edit/5
@@ -89,12 +111,12 @@ namespace COMP2084Project1.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(artTable).State = EntityState.Modified;
-                db.SaveChanges();
+                //db.Entry(artTable).State = EntityState.Modified;
+                db.Save(artTable);
                 return RedirectToAction("Index");
             }
             ViewBag.MuseumID = new SelectList(db.museumTables, "MuseumID", "Name", artTable.MuseumID);
-            return View(artTable);
+            return View("Edit", artTable);
         }
 
         // GET: artTables/Delete/5
@@ -102,34 +124,51 @@ namespace COMP2084Project1.Controllers
         {
             if (id == null)
             {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                //return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+                return View("Error");
             }
-            artTable artTable = db.artTables.Find(id);
+            //artTable artTable = db.artTables.Find(id);
+            artTable artTable = db.artTables.SingleOrDefault(a => a.TitleID == id);
             if (artTable == null)
             {
-                return HttpNotFound();
+                //return HttpNotFound();
+                return View("Error");
             }
-            return View(artTable);
+            return View("Delete", artTable);
         }
 
         // POST: artTables/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult DeleteConfirmed(int? id)
         {
-            artTable artTable = db.artTables.Find(id);
-            db.artTables.Remove(artTable);
-            db.SaveChanges();
+            //artTable artTable = db.artTables.Find(id);
+            //db.artTables.Remove(artTable);
+            //db.SaveChanges();
+            if (id == null)
+            {
+                return View("Error");
+            }
+
+            artTable artTable = db.artTables.SingleOrDefault(a => a.TitleID == id);
+
+            if (id == null)
+            {
+                return View("Error");
+            }
+
+            db.Delete(artTable);
+
             return RedirectToAction("Index");
         }
 
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
+        //protected override void Dispose(bool disposing)
+        //{
+        //    if (disposing)
+        //    {
+        //        db.Dispose();
+        //    }
+        //    base.Dispose(disposing);
+        //}
     }
 }
