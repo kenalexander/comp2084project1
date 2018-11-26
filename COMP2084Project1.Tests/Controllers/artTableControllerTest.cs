@@ -17,7 +17,7 @@ namespace COMP2084Project1.Tests.Controllers
         List<artTable> artTables;
         artTablesController controller;
 
-        [TestMethod]
+        [TestInitialize]
         public void TestInitialize()
         {
             mock = new Mock<IArtMock>();
@@ -48,6 +48,7 @@ namespace COMP2084Project1.Tests.Controllers
             };
 
             mock.Setup(m => m.artTables).Returns(artTables.AsQueryable());
+
             controller = new artTablesController(mock.Object);
         }
         
@@ -90,10 +91,10 @@ namespace COMP2084Project1.Tests.Controllers
         [TestMethod]
         public void DetailsValidId()
         {
-            // act - cast the model as an Album object
+            // act
             artTable actual = (artTable)((ViewResult)controller.Details(300)).Model;
 
-            // assert - is this the first mock album in our array?
+            // assert
             Assert.AreEqual(artTables[2], actual);
         }
 
@@ -131,6 +132,16 @@ namespace COMP2084Project1.Tests.Controllers
         }
 
         [TestMethod]
+        public void EditViewBagMuseumTable()
+        {
+            // act
+            ViewResult actual = (ViewResult)controller.Edit(100);
+
+            // assert
+            Assert.IsNotNull(actual.ViewBag.MuseumID);
+        }
+
+        [TestMethod]
         public void EditViewLoads()
         {
             // act
@@ -158,6 +169,18 @@ namespace COMP2084Project1.Tests.Controllers
             // assert
             Assert.AreEqual("Create", result.ViewName);
         }
+
+        [TestMethod]
+        public void CreateViewBagMuseum()
+        {
+            // act
+            ViewResult result = (ViewResult)controller.Create();
+
+            // assert
+            Assert.IsNotNull(result.ViewBag.MuseumID);
+        }
+
+
         [TestMethod]
         public void DeleteNoId()
         {
@@ -197,7 +220,19 @@ namespace COMP2084Project1.Tests.Controllers
             // assert
             Assert.AreEqual(artTables[0], result);
         }
+        [TestMethod]
+        public void EditPostViewBagMuseum()
+        {
+            // arrange
+            artTable invalid = new artTable { MuseumID = 99 };
+            controller.ModelState.AddModelError("Error", "Won't Save");
 
+            // act
+            ViewResult result = (ViewResult)controller.Edit(invalid);
+
+            // assert
+            Assert.IsNotNull(result.ViewBag.MuseumID);
+        }
         [TestMethod]
         public void EditPostLoadsIndex()
         {
@@ -237,10 +272,10 @@ namespace COMP2084Project1.Tests.Controllers
         }
 
         [TestMethod]
-        public void CreateValidAlbum()
+        public void CreateValidArtTable()
         {
             // arrange
-            artTable newAlbum = new artTable
+            artTable art = new artTable
             {
                 TitleID = 400,
                 Title = "The Last Supper",
@@ -253,7 +288,7 @@ namespace COMP2084Project1.Tests.Controllers
             };
 
             // act
-            RedirectToRouteResult result = (RedirectToRouteResult)controller.Create(newAlbum);
+            RedirectToRouteResult result = (RedirectToRouteResult)controller.Create(art);
 
             // assert
             Assert.AreEqual("Index", result.RouteValues["action"]);
@@ -274,20 +309,24 @@ namespace COMP2084Project1.Tests.Controllers
         }
 
         [TestMethod]
+        public void CreateInvalidViewBagMuseum()
+        {
+            // arrange
+            artTable invalid = new artTable();
+
+            // act
+            controller.ModelState.AddModelError("Cannot create", "create exception");
+            ViewResult result = (ViewResult)controller.Create(invalid);
+
+            // assert
+            Assert.IsNotNull(result.ViewBag.MuseumID);
+        }
+
+        [TestMethod]
         public void DeleteConfirmedNoId()
         {
             // act
             ViewResult result = (ViewResult)controller.DeleteConfirmed(null);
-
-            // assert
-            Assert.AreEqual("Error", result.ViewName);
-        }
-
-        [TestMethod]
-        public void DeleteConfirmedInvalidId()
-        {
-            // act
-            ViewResult result = (ViewResult)controller.DeleteConfirmed(77777);
 
             // assert
             Assert.AreEqual("Error", result.ViewName);
@@ -302,5 +341,7 @@ namespace COMP2084Project1.Tests.Controllers
             // assert
             Assert.AreEqual("Index", result.RouteValues["action"]);
         }
+
+
     }
 }
